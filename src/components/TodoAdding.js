@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Input, Button, Row, Col } from 'reactstrap';
 
 class TodoAdding extends Component {
     constructor(props){
@@ -31,12 +32,16 @@ class TodoAdding extends Component {
 
     render() {
         return(
-            <div className="add-todo">
+            <Row className="add-todo">
                 {/* <input type="text" placeholder="thing to do" onChange={this.changeTodoContent()}/> */}
                 {/* <input type="text" placeholder="thing to do" onChange={(e) => this.changeTodoContent(e)}/> */}
-                <input type="text" placeholder="thing to do" onChange={this.props.change} value={this.props.todoContent} onKeyPress={this.props.enterPressed}/>
-                <button onClick={this.props.click}>Add</button>
-            </div>
+                <Col xs="20" sm="8">
+                    <Input type="text" placeholder="thing to do" onChange={this.props.change} value={this.props.todoContent} onKeyPress={this.props.enterPressed}/>
+                </Col>
+                <Col>
+                    <Button onClick={this.props.click}>Add</Button>
+                </Col>
+            </Row>
         )
     };
 }

@@ -46,6 +46,25 @@ class App extends Component {
     }
   }
 
+  keyPressed(event){
+    if(event.key==='Enter'){
+      this.addTodo(this.state.todoContent);
+    }
+  }
+
+  deleteTask(event, index){
+    const { cookies } = this.props;
+    const todos =[...this.state.todods];
+    todos.splice(index, 1);
+
+    const tasksList=JSON.stringify(todos);
+    cookies.set('tasks',tasksList);
+
+    this.setState({
+      todods: todos
+    });
+  }
+
   render() {
     let myTodos = [
       {
@@ -68,13 +87,17 @@ class App extends Component {
     // });
     let myTodoList = this.state.todods.map((t, index) => {
       return(
-        <TodoItem content={t.content} key={t.id} />
+        <TodoItem content={t.content} key={t.id} delete={(event) => {this.deleteTask(event, index)}} />
       );
     });
     return (
       <div className="App">
         <img src={banner} className="banner"></img>
-        <TodoAdding change={(event)=>{this.changeTodoContent(event)}} todoContent={this.state.todoContent} click={(event)=>{this.addTodo(this.state.todoContent)}}/>
+        <TodoAdding 
+          change={(event)=>{this.changeTodoContent(event)}} 
+          todoContent={this.state.todoContent} 
+          click={(event)=>{this.addTodo(this.state.todoContent)}}
+          enterPressed={(event)=>this.keyPressed(event)}/>
         <ul>
           {myTodoList}
         </ul>
