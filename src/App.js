@@ -35,10 +35,9 @@ class App extends Component {
     const todos = [...this.state.todods];
     if(this.state.todoContent){
       console.log(cookies.get('tasks'));
-      todos.unshift({content:todoContent, isCompleted:false});
+      todos.unshift({content:todoContent, isComplete: false});
       const tasksList=JSON.stringify(todos);
         cookies.set('tasks',tasksList);
-      //console.log( stringArr);
       this.setState({
         todods: todos,
         todoContent: ""
@@ -60,6 +59,17 @@ class App extends Component {
     const tasksList=JSON.stringify(todos);
     cookies.set('tasks',tasksList);
 
+    this.setState({
+      todods: todos
+    });
+  }
+
+  completeTask=(event,index)=>{
+    const { cookies } = this.props;
+    const todos =[...this.state.todods];
+    todos[index].isComplete = !todos[index].isComplete;
+    const tasksList=JSON.stringify(todos);
+    cookies.set('tasks',tasksList);
     this.setState({
       todods: todos
     });
@@ -87,7 +97,9 @@ class App extends Component {
     // });
     let myTodoList = this.state.todods.map((t, index) => {
       return(
-        <TodoItem content={t.content} key={t.id} delete={(event) => {this.deleteTask(event, index)}} />
+        <TodoItem content={t.content} key={t.id} delete={(event) => {this.deleteTask(event, index)}}
+          isComplete={t.isComplete}
+          complete={(event)=>{this.completeTask(event,index)}} />
       );
     });
     return (
